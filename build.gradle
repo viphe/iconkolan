@@ -1,0 +1,32 @@
+
+apply plugin: 'android-library'
+apply plugin: 'xtend-android'
+apply plugin: 'eclipse'
+
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath 'com.android.tools.build:gradle:0.10.+'
+    classpath 'org.xtend:xtend-gradle-plugin:0.0.+'
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.5.4'
+}
+
+android {
+  compileSdkVersion 15
+  buildToolsVersion '19.0.1'
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.12'
+}
