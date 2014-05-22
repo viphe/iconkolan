@@ -3,8 +3,14 @@
 *.swp
 build/
 target/
+bin/
 .gradle/
+
 .classpath
 .project
 .settings/
 
+.idea/
+*.iml
+
+TODO

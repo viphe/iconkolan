@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<manifest package="com.github.viphe.iconkolan">
-  <application name="IconKolan">
-  </application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.github.viphe.iconkolan"
+    android:versionCode="1">
+
+    <application android:label="IconKolan" android:name=".IconKolan">
+
+        <activity android:name=".IconKolanWidgetConfigure">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name="com.github.viphe.iconkolan.IconKolanWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_provider" />
+        </receiver>
+
+    </application>
 </manifest>
