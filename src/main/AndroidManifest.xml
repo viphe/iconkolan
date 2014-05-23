@@ -6,7 +6,7 @@
 
     <application android:label="IconKolan" android:name=".IconKolan">
 
-        <activity android:name=".IconKolanWidgetConfigure">
+        <activity android:name=".IconKolanWidgetConfigActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
