@@ -24,9 +24,9 @@
         android:fontFamily="sans-serif-thin"
         android:ellipsize="none"
         android:shadowColor="@android:color/black"
-        android:shadowDx="1"
+        android:shadowDx="-1"
         android:shadowDy="2"
-        android:shadowRadius="2"
+        android:shadowRadius="3"
         android:singleLine="false"
         android:text="Icon Kolan"/>
 
