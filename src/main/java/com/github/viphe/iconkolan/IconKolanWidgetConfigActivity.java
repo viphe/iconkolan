@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RemoteViews;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,14 +44,7 @@ public class IconKolanWidgetConfigActivity extends Activity implements AdapterVi
         setContentView(R.layout.config_layout);
         PackageManager packageManager = getPackageManager();
         if (packageManager != null) {
-            List<ApplicationInfo> appInfos =
-                packageManager.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
-            List<AppChoice> appChoices = new ArrayList<AppChoice>(appInfos.size());
-            for (ApplicationInfo appInfo : appInfos) {
-                appChoices.add(new AppChoice(appInfo, packageManager));
-            }
-            Collections.sort(appChoices);
-            appChoices.set(0, new AppChoice(null, packageManager));
+            List<AppChoice> appChoices = collectAppChoices(packageManager);
 
             ArrayAdapter<AppChoice> adapter = new ArrayAdapter<AppChoice>(
                 this,
@@ -62,6 +56,20 @@ public class IconKolanWidgetConfigActivity extends Activity implements AdapterVi
             spinner.setAdapter(adapter);
             spinner.setOnItemSelectedListener(this);
         }
+    }
+
+    private List<AppChoice> collectAppChoices(PackageManager packageManager) {
+        List<ApplicationInfo> appInfos =
+            packageManager.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
+        List<AppChoice> appChoices = new ArrayList<AppChoice>(appInfos.size());
+        for (ApplicationInfo appInfo : appInfos) {
+            if (packageManager.getLaunchIntentForPackage(appInfo.packageName) != null) {
+                appChoices.add(new AppChoice(appInfo, packageManager));
+            }
+        }
+        Collections.sort(appChoices);
+        appChoices.set(0, new AppChoice(null, packageManager));
+        return appChoices;
     }
 
     private static class AppChoice implements Comparable<AppChoice> {

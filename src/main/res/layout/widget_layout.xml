@@ -21,7 +21,7 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="12sp"
-        android:fontFamily="sans-serif-thin"
+        android:fontFamily="sans-serif-condensed"
         android:ellipsize="none"
         android:shadowColor="@android:color/black"
         android:shadowDx="-1"
