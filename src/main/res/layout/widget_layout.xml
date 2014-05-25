@@ -1,24 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_launcher"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:layout_height="100dp"
+    tools:layout_width="60dp">
 
-    <ImageView
-        android:id="@+id/app_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@android:drawable/sym_def_app_icon"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:layout_gravity="fill_horizontal"
+        android:scaleType="fitCenter"
+        >
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/sym_def_app_icon"/>
+        <ImageView
+            android:id="@+id/app_disabled_sticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/emotion_dead_icon"/>
+    </RelativeLayout>
     <TextView
         android:id="@+id/app_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_height="0dp"
+        android:layout_weight="3"
         android:minEms="20"
-        android:gravity="center"
+        android:gravity="bottom|center_horizontal"
         android:textColor="@android:color/white"
         android:textSize="12sp"
         android:fontFamily="sans-serif-condensed"
