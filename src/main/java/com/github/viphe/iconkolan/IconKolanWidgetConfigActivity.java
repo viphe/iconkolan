@@ -140,12 +140,8 @@ public class IconKolanWidgetConfigActivity extends Activity implements AdapterVi
                 resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                 setResult(RESULT_OK, resultValue);
 
-                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
-                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.app_launcher);
-                appWidgetManager.updateAppWidget(
-                    appWidgetId,
-                    IconKolanWidgetProvider.buildRemoveViews(
-                        this, appWidgetManager, appWidgetId, packageName));
+                IconKolanWidgetProvider.updateWidget(
+                    getApplicationContext(), appWidgetId, packageName);
 
                 finish();
                 return true;

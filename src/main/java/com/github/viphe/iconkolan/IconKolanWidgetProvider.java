@@ -11,8 +11,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -39,21 +41,35 @@ public class IconKolanWidgetProvider extends AppWidgetProvider {
         }
     }
 
-    public static RemoteViews buildRemoveViews(Context context, AppWidgetManager appWidgetManager, int appWidgetId, String packageName) {
+    public static RemoteViews buildRemoveViews(
+        final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId, final String packageName) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
         PackageManager packageManager = context.getPackageManager();
+        if (packageManager == null) {
+            return views;
+        }
+
         ApplicationInfo applicationInfo;
         try {
             applicationInfo = packageManager.getApplicationInfo(
                 packageName, PackageManager.GET_UNINSTALLED_PACKAGES);
         } catch (PackageManager.NameNotFoundException e) {
-            return views;
+            applicationInfo = null;
         }
 
-        String appName = applicationInfo.loadLabel(packageManager).toString();
-        views.setTextViewText(R.id.app_name, appName);
-         views.setImageViewBitmap(R.id.app_icon, drawableToBitmap(applicationInfo.loadIcon(packageManager)));
+        if (applicationInfo != null) {
+            String appName = applicationInfo.loadLabel(packageManager).toString();
+            views.setTextViewText(R.id.app_name, appName);
+            views.setImageViewBitmap(R.id.app_icon, drawableToBitmap(applicationInfo.loadIcon(packageManager)));
+        }
+
+        boolean installed =
+            (Build.VERSION.SDK_INT < 17 && applicationInfo != null) ||
+            (applicationInfo != null &&
+                Build.VERSION.SDK_INT >= 17 &&
+                (applicationInfo.flags & ApplicationInfo.FLAG_INSTALLED) > 0);
+        views.setViewVisibility(R.id.app_disabled_sticker, installed ? View.GONE : View.VISIBLE);
 
         Intent intent = new Intent(context, IconKolanWidgetProvider.class);
         intent.setAction("click");
@@ -131,4 +147,12 @@ public class IconKolanWidgetProvider extends AppWidgetProvider {
         return bitmap;
     }
 
+    public static void updateWidget(Context applicationContext, int appWidgetId, String packageName) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(applicationContext);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.app_launcher);
+        appWidgetManager.updateAppWidget(
+            appWidgetId,
+            IconKolanWidgetProvider.buildRemoveViews(
+                applicationContext, appWidgetManager, appWidgetId, packageName));
+    }
 }
